@@ -8,6 +8,7 @@ import { Model } from 'mongoose';
 @Injectable()
 export class ReservationRepository extends AbstractRepo<ReservationDocument> {
   constructor(
+    // NestJS is requested to inject the Mongoose model for Reservation.
     @InjectModel(ReservationDocument.name)
     reservationModel: Model<ReservationDocument>,
     logger: PinoLogger,
