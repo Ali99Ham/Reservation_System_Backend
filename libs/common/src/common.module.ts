@@ -29,6 +29,6 @@ import { ConfigService } from '@nestjs/config';
       inject: [ConfigService],
     }),
   ],
-  exports: [ConfigModule, DatabaseModule, LoggerModule],
+  exports: [ConfigModule, DatabaseModule],
 })
 export class CommonModule {}

@@ -4,10 +4,8 @@ import { PinoLogger } from 'nestjs-pino';
 import { NotFoundException } from '@nestjs/common';
 
 export abstract class AbstractRepo<T extends AbstractDocument> {
-  constructor(
-    protected readonly model: Model<T>,
-    protected readonly logger: PinoLogger,
-  ) {}
+  protected readonly logger: PinoLogger;
+  constructor(protected readonly model: Model<T>) {}
 
   async create(document: Omit<T, '_id'>): Promise<T> {
     const newDocument = new this.model({

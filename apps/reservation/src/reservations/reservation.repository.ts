@@ -11,8 +11,7 @@ export class ReservationRepository extends AbstractRepo<ReservationDocument> {
     // NestJS is requested to inject the Mongoose model for Reservation.
     @InjectModel(ReservationDocument.name)
     reservationModel: Model<ReservationDocument>,
-    logger: PinoLogger,
   ) {
-    super(reservationModel, logger);
+    super(reservationModel);
   }
 }
