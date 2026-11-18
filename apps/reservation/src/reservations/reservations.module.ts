@@ -8,12 +8,24 @@ import {
   ReservationDocument,
   ReservationSchema,
 } from './models/reservation.schema.js';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { AUTH_SERVICE } from '@app/common/auth/constant/index.js';
 
 @Module({
   imports: [
     CommonModule,
     MongooseModule.forFeature([
       { name: ReservationDocument.name, schema: ReservationSchema },
+    ]),
+    ClientsModule.register([
+      {
+        name: AUTH_SERVICE,
+        transport: Transport.TCP,
+        options: {
+          host: 'auth',
+          port: 3002,
+        },
+      },
     ]),
   ],
   controllers: [ReservationsController],

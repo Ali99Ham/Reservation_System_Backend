@@ -7,30 +7,30 @@ import { ReservationRepository } from './reservation.repository.js';
 export class ReservationsService {
   constructor(private readonly reservationRepository: ReservationRepository) {}
 
-  create(createReservationDto: CreateReservationDto) {
-    return this.reservationRepository.create({
+  async create(createReservationDto: CreateReservationDto, userId: string) {
+    return await this.reservationRepository.create({
       ...createReservationDto,
       timestamp: new Date(),
-      userId: '123',
+      userId,
     });
   }
 
-  findAll() {
-    return this.reservationRepository.find({});
+  async findAll() {
+    return await this.reservationRepository.find({});
   }
 
-  findOne(_id: string) {
-    return this.reservationRepository.findOne({ _id });
+  async findOne(_id: string) {
+    return await this.reservationRepository.findOne({ _id });
   }
 
-  update(_id: string, updateReservationDto: UpdateReservationDto) {
-    return this.reservationRepository.findOneAndUpdate(
+  async update(_id: string, updateReservationDto: UpdateReservationDto) {
+    return await this.reservationRepository.findOneAndUpdate(
       { _id },
       { $set: updateReservationDto },
     );
   }
 
-  remove(_id: string) {
-    return this.reservationRepository.findAndDelete({ _id });
+  async remove(_id: string) {
+    return await this.reservationRepository.findAndDelete({ _id });
   }
 }

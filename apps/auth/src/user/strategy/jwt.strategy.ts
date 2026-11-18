@@ -6,7 +6,12 @@ import { TokenPayload } from '../dto/tokenPayload.dto.js';
 export class JWTStrategy extends PassportStrategy(Strategy) {
   constructor(private readonly configService: ConfigService) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        /// from TCP
+        (request) => request.Authentication,
+        /// from HTTP header
+        ExtractJwt.fromAuthHeaderAsBearerToken(),
+      ]),
       secretOrKey: configService.getOrThrow('JWT_SECRET'),
     });
   }
