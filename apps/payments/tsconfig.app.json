@@ -5,6 +5,9 @@
     "rootDir": "../..",
     "outDir": "../../dist/apps/payments"
   },
-  "include": ["src/**/*"],
+  "include": [
+    "src/**/*",
+    "../../libs/common/src/auth/dto/create-stripe-intent.dto.ts"
+  ],
   "exclude": ["node_modules", "dist", "test", "**/*spec.ts"]
 }

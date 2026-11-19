@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { PaymentsService } from './payments.service.js';
 import { MessagePattern, Payload } from '@nestjs/microservices';
-import { CreateStripeIntentDTO } from './dto/create-stripe-intent.dto.js';
+import { CreateStripeIntentDTO } from '@app/common/auth/dto/create-stripe-intent.dto.js';
 
 @Controller()
 export class PaymentsController {

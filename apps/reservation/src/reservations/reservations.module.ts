@@ -9,7 +9,10 @@ import {
   ReservationSchema,
 } from './models/reservation.schema.js';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { AUTH_SERVICE } from '@app/common/auth/constant/index.js';
+import {
+  AUTH_SERVICE,
+  PAYMENT_SERVICE,
+} from '@app/common/auth/constant/index.js';
 
 @Module({
   imports: [
@@ -24,6 +27,14 @@ import { AUTH_SERVICE } from '@app/common/auth/constant/index.js';
         options: {
           host: 'auth',
           port: 3002,
+        },
+      },
+      {
+        name: PAYMENT_SERVICE,
+        transport: Transport.TCP,
+        options: {
+          host: 'payments',
+          port: 3003,
         },
       },
     ]),

@@ -5,6 +5,6 @@
     "rootDir": "../..",
     "outDir": "../../dist/apps/reservation"
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "../../libs/common/src/auth/dto/card.dto.ts"],
   "exclude": ["node_modules", "dist", "test", "**/*spec.ts"]
 }

@@ -1,5 +1,6 @@
 import { Type } from 'class-transformer';
 import { IsDate, IsNotEmpty, IsString } from 'class-validator';
+import { CreateStripeIntentDTO } from '@app/common/auth/dto/create-stripe-intent.dto.js';
 
 export class CreateReservationDto {
   @IsDate()
@@ -10,8 +11,6 @@ export class CreateReservationDto {
   @Type(() => Date)
   endDate: Date;
 
-  @IsString()
-  @IsNotEmpty()
-  placeId: string;
-  invoiceId: string;
+  @Type(() => CreateStripeIntentDTO)
+  charge: CreateStripeIntentDTO;
 }
