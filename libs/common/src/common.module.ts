@@ -6,7 +6,6 @@ import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    ConfigModule,
     DatabaseModule,
     LoggerModule.forRootAsync({
       imports: [ConfigModule],
@@ -29,6 +28,6 @@ import { ConfigService } from '@nestjs/config';
       inject: [ConfigService],
     }),
   ],
-  exports: [ConfigModule, DatabaseModule],
+  exports: [DatabaseModule, LoggerModule],
 })
 export class CommonModule {}

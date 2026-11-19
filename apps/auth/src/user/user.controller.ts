@@ -11,12 +11,12 @@ export class UserController {
 
   @Post()
   async create(@Body() newUser: NewUserDto) {
-    return this.userService.create(newUser);
+    return await this.userService.create(newUser);
   }
 
   @UseGuards(LocalGuard)
   @Post()
   async login(@CurrentUser() user: UserDocument) {
-    this.userService.login(user);
+    return await this.userService.login(user);
   }
 }

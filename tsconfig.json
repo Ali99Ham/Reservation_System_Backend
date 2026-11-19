@@ -18,10 +18,17 @@
     "skipLibCheck": true,
     "strict": true,
     "strictPropertyInitialization": false,
-    "types": ["vitest/globals", "node"],
+    "types": [
+      "vitest/globals",
+      "node"
+    ],
     "paths": {
-      "@app/common": ["./libs/common/src/index.ts"],
-      "@app/common/*": ["./libs/common/src/*"]
+      "@app/common": [
+        "./libs/common/src/index.ts"
+      ],
+      "@app/common/*": [
+        "./libs/common/src/*"
+      ]
     }
   },
   "files": [],
@@ -31,6 +38,12 @@
     },
     {
       "path": "./apps/auth/tsconfig.app.json"
+    },
+    {
+      "path": "./apps/reserveation_system/tsconfig.app.json"
+    },
+    {
+      "path": "./apps/payments/tsconfig.app.json"
     },
     {
       "path": "./tsconfig.spec.json"

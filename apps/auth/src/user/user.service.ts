@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { NewUserDto } from './dto/newUser.dto.js';
 import { UserRepository } from './user.repository.js';
-import * as bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
 import { UserDocument } from './model/user.schema.js';
 import { JwtService } from '@nestjs/jwt';
 import { TokenPayload } from './dto/tokenPayload.dto.js';

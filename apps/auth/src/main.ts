@@ -13,7 +13,7 @@ async function bootstrap() {
     transport: Transport.TCP,
     options: {
       host: '0.0.0.0',
-      ports: config.getOrThrow('TCP_PORT'),
+      port: config.getOrThrow('TCP_PORT'),
     },
   });
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));

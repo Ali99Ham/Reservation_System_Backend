@@ -1,28 +1,28 @@
-# Build Stage
-FROM node:22-alpine AS development
+FROM node:alpine AS development
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY package.json package-lock.json ./
+COPY tsconfig.json nest-cli.json ./
 
 RUN npm ci
 
-COPY . .
+COPY apps/reservation apps/reservation
+COPY libs libs
 
-RUN npm run build reservations
+RUN npm run build -- reservation
 
+FROM node:alpine AS production
 
-# Production Stage
-FROM node:22-alpine AS production
-
-ENV NODE_ENV=production
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY package.json package-lock.json ./
 
-RUN npm ci --omit=dev && npm cache clean --force
+RUN npm ci --omit=dev
 
 COPY --from=development /usr/src/app/dist ./dist
 
-CMD ["node", "dist/apps/reservations/main.js"]
+CMD ["node", "dist/apps/reservation/main"]
