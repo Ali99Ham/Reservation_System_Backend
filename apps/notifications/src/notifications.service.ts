@@ -21,12 +21,12 @@ export class NotificationsService {
     });
   }
 
-  async notifyEmail({ email }: NotifyEmailDTO) {
+  async notifyEmail({ email, text }: NotifyEmailDTO) {
     this.transporter.sendMail({
       from: this.configService.getOrThrow('SMTP_USER'),
       to: email,
       subject: 'Reservation Notification',
-      text: 'Reservation Text',
+      text: text,
     });
   }
 }
