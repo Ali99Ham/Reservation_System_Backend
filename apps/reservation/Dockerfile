@@ -10,6 +10,8 @@ RUN npm ci
 COPY apps/reservation apps/reservation
 COPY libs libs
 
+RUN cd apps/reservation && npm install 
+
 RUN npm run build -- reservation
 
 FROM node:alpine AS production
