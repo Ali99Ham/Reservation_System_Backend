@@ -9,10 +9,7 @@ import {
   ReservationSchema,
 } from './models/reservation.schema.js';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import {
-  AUTH_SERVICE,
-  PAYMENT_SERVICE,
-} from '@app/common/auth/constant/index.js';
+import { AUTH_SERVICE, PAYMENT_SERVICE } from '@app/common/constant/index.js';
 
 @Module({
   imports: [

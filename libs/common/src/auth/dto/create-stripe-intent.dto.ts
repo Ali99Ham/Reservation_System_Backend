@@ -1,5 +1,6 @@
 import {
   IsDefined,
+  IsEmail,
   IsNotEmpty,
   IsNumber,
   ValidateNested,
@@ -16,4 +17,7 @@ export class CreateStripeIntentDTO {
 
   @IsNumber()
   amount: number;
+
+  @IsEmail()
+  email: string;
 }

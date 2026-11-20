@@ -4,7 +4,6 @@ WORKDIR /usr/src/app
 
 COPY package.json package-lock.json ./
 COPY tsconfig.json nest-cli.json ./
-COPY apps/auth/package.json apps/auth/package.json
 
 RUN npm ci
 
