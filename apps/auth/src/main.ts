@@ -10,10 +10,10 @@ async function bootstrap() {
   const config = app.get(ConfigService);
 
   app.connectMicroservice({
-    transport: Transport.TCP,
+    transport: Transport.RMQ,
     options: {
-      host: '0.0.0.0',
-      port: config.getOrThrow('TCP_PORT'),
+      urls: [config.getOrThrow('RabbitMQ_URL')],
+      queue: 'auth',
     },
   });
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));

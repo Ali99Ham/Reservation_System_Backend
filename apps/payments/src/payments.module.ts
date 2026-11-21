@@ -3,9 +3,9 @@ import { PaymentsController } from './payments.controller.js';
 import { PaymentsService } from './payments.service.js';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CommonModule } from '@app/common';
-import { Stripe } from 'stripe';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { NOTIFICATION_SERVICE } from '@app/common/constant/index.js';
+import Stripe from 'stripe';
 
 @Module({
   imports: [
@@ -14,14 +14,18 @@ import { NOTIFICATION_SERVICE } from '@app/common/constant/index.js';
       isGlobal: true,
       envFilePath: ['apps/payments/.env', '.env'],
     }),
-    ClientsModule.register([
+    ClientsModule.registerAsync([
       {
+        inject: [ConfigService],
         name: NOTIFICATION_SERVICE,
-        transport: Transport.TCP,
-        options: {
-          host: 'notifications',
-          port: 3005,
-        },
+        imports: [ConfigModule],
+        useFactory: (config: ConfigService) => ({
+          transport: Transport.RMQ,
+          options: {
+            urls: [config.getOrThrow<string>('RabbitMQ_URL')],
+            queue: 'notification',
+          },
+        }),
       },
     ]),
   ],

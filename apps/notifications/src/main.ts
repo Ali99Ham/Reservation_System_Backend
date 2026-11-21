@@ -9,10 +9,10 @@ async function bootstrap() {
   const app = await NestFactory.create(NotificationsModule);
   const configService = app.get(ConfigService);
   await NestFactory.createMicroservice(NotificationsModule, {
-    transport: Transport.TCP,
+    transport: Transport.RMQ,
     options: {
-      host: '0.0.0.0',
-      port: configService.getOrThrow('TCP_PORT'),
+      urls: [configService.getOrThrow('RabbitMQ_URL')],
+      queue: 'notification',
     },
   });
   app.useLogger(app.get(Logger));

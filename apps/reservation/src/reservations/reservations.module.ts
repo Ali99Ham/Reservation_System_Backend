@@ -10,29 +10,39 @@ import {
 } from './models/reservation.schema.js';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { AUTH_SERVICE, PAYMENT_SERVICE } from '@app/common/constant/index.js';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule,
     CommonModule,
     MongooseModule.forFeature([
       { name: ReservationDocument.name, schema: ReservationSchema },
     ]),
-    ClientsModule.register([
+    ClientsModule.registerAsync([
       {
         name: AUTH_SERVICE,
-        transport: Transport.TCP,
-        options: {
-          host: 'auth',
-          port: 3002,
-        },
+        imports: [ConfigModule],
+        inject: [ConfigService],
+        useFactory: (config: ConfigService) => ({
+          transport: Transport.RMQ,
+          options: {
+            urls: [config.getOrThrow<string>('RabbitMQ_URL')],
+            queue: 'auth',
+          },
+        }),
       },
       {
         name: PAYMENT_SERVICE,
-        transport: Transport.TCP,
-        options: {
-          host: 'payments',
-          port: 3003,
-        },
+        imports: [ConfigModule],
+        inject: [ConfigService],
+        useFactory: (config: ConfigService) => ({
+          transport: Transport.RMQ,
+          options: {
+            urls: [config.getOrThrow<string>('RabbitMQ_URL')],
+            queue: 'payments',
+          },
+        }),
       },
     ]),
   ],
