@@ -24,6 +24,7 @@ import Stripe from 'stripe';
           options: {
             urls: [config.getOrThrow<string>('RabbitMQ_URL')],
             queue: 'notification',
+            noAck: true,
           },
         }),
       },
