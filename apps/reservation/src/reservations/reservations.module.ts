@@ -11,6 +11,9 @@ import {
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { AUTH_SERVICE, PAYMENT_SERVICE } from '@app/common/constant/index.js';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AUTH_PACKAGE_NAME } from '@app/common/types/auth.js';
+import { join } from 'path';
+import { PAYMENT_PACKAGE_NAME } from '@app/common/types/payment.js';
 
 @Module({
   imports: [
@@ -25,10 +28,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         imports: [ConfigModule],
         inject: [ConfigService],
         useFactory: (config: ConfigService) => ({
-          transport: Transport.RMQ,
+          transport: Transport.GRPC,
           options: {
-            urls: [config.getOrThrow<string>('RabbitMQ_URL')],
-            queue: 'auth',
+            package: AUTH_PACKAGE_NAME,
+            protoPath: join(__dirname, '../../../proto/auth.proto'),
+            url: config.get<string>('AUTH_GRPC_URL'),
           },
         }),
       },
@@ -37,10 +41,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         imports: [ConfigModule],
         inject: [ConfigService],
         useFactory: (config: ConfigService) => ({
-          transport: Transport.RMQ,
+          transport: Transport.GRPC,
           options: {
-            urls: [config.getOrThrow<string>('RabbitMQ_URL')],
-            queue: 'payments',
+            package: PAYMENT_PACKAGE_NAME,
+            protoPath: join(__dirname, '../../../proto/payment.proto'),
+            url: config.get<string>('PAYMENT_GRPC_URL'),
           },
         }),
       },

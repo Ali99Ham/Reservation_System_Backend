@@ -7,8 +7,9 @@ import {
 } from 'class-validator';
 // import { Type } from 'class-transformer';
 // import { CardDTO } from './card.dto';
+import { createChargeMessage } from '@app/common/types/payment.js';
 
-export class CreateStripeIntentDTO {
+export class CreateStripeIntentDTO implements createChargeMessage {
   // @IsDefined()
   // @IsNotEmpty()
   // @ValidateNested()

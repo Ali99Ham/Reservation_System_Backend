@@ -6,6 +6,8 @@ import { CommonModule } from '@app/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { NOTIFICATION_SERVICE } from '@app/common/constant/index.js';
 import Stripe from 'stripe';
+import { join } from 'path';
+import { NOTIFICATION_PACKAGE_NAME } from '@app/common/types/notification.js';
 
 @Module({
   imports: [
@@ -20,11 +22,11 @@ import Stripe from 'stripe';
         name: NOTIFICATION_SERVICE,
         imports: [ConfigModule],
         useFactory: (config: ConfigService) => ({
-          transport: Transport.RMQ,
+          transport: Transport.GRPC,
           options: {
-            urls: [config.getOrThrow<string>('RabbitMQ_URL')],
-            queue: 'notification',
-            noAck: true,
+            package: NOTIFICATION_PACKAGE_NAME,
+            protoPath: join(__dirname, '../../../proto/notification.proto'),
+            url: config.get<string>('NOTIFICATION_GRPC_URL'),
           },
         }),
       },

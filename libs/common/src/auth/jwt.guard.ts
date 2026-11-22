@@ -1,11 +1,19 @@
 import { CanActivate, ExecutionContext, Inject } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
+import type { ClientGrpc } from '@nestjs/microservices';
 import { Observable, tap, map } from 'rxjs';
 import { AUTH_SERVICE } from '../constant/index.js';
 import { UserDTO } from './dto/user.dto.js';
+import { AUTH_SERVICE_NAME } from '../types/auth.js';
+import { AuthClient } from '@app/common/types/auth.js';
 
 export class JWTAuthGuard implements CanActivate {
-  constructor(@Inject(AUTH_SERVICE) private readonly client: ClientProxy) {}
+  private readonly authService: AuthClient;
+  constructor(@Inject(AUTH_SERVICE_NAME) private readonly client: ClientGrpc) {}
+
+  onModuleInit() {
+    this.client.getService<AuthClient>(AUTH_SERVICE_NAME);
+  }
+
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
@@ -14,11 +22,9 @@ export class JWTAuthGuard implements CanActivate {
 
     if (!token) return false;
 
-    return this.client
-      .send<UserDTO>('authentication', { Authentication: token })
-      .pipe(
-        tap((res) => (context.switchToHttp().getRequest().user = res)),
-        map(() => true),
-      );
+    return this.authService.authenticate({ Authentication: token }).pipe(
+      tap((res) => (context.switchToHttp().getRequest().user = res)),
+      map(() => true),
+    );
   }
 }

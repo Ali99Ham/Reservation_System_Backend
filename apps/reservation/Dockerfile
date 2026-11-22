@@ -27,4 +27,6 @@ RUN npm ci --omit=dev
 
 COPY --from=development /usr/src/app/dist ./dist
 
+COPY proto proto
+
 CMD ["node", "dist/apps/reservation/main"]

@@ -7,21 +7,17 @@ import {
   RmqContext,
 } from '@nestjs/microservices';
 import { CreateStripeIntentDTO } from '@app/common/auth/dto/create-stripe-intent.dto.js';
+import {
+  PaymentServiceController,
+  PaymentServiceControllerMethods,
+} from '@app/common/types/payment.js';
 
 @Controller()
-export class PaymentsController {
+@PaymentServiceControllerMethods()
+export class PaymentsController implements PaymentServiceController {
   constructor(private readonly paymentsService: PaymentsService) {}
 
-  @MessagePattern('create_charge')
-  async createCharge(
-    @Payload() data: CreateStripeIntentDTO,
-    @Ctx() ctx: RmqContext,
-  ) {
-    const channel = ctx.getChannelRef();
-    const originMsg = ctx.getMessage();
-
-    // manually trigger
-    channel.ack(originMsg);
+  async createCharge(data: CreateStripeIntentDTO) {
     return this.paymentsService.createCharge(data);
   }
 }
