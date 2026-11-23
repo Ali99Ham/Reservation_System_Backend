@@ -14,6 +14,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AUTH_PACKAGE_NAME } from '@app/common/types/auth.js';
 import { join } from 'path';
 import { PAYMENT_PACKAGE_NAME } from '@app/common/types/payment.js';
+import { GraphQLModule } from '@nestjs/graphql';
+import {
+  ApolloFederationDriver,
+  ApolloFederationDriverConfig,
+} from '@nestjs/apollo';
+import { ReservationsResolver } from './reservation.resolver.js';
 
 @Module({
   imports: [
@@ -50,8 +56,14 @@ import { PAYMENT_PACKAGE_NAME } from '@app/common/types/payment.js';
         }),
       },
     ]),
+    GraphQLModule.forRoot<ApolloFederationDriverConfig>({
+      driver: ApolloFederationDriver,
+      autoSchemaFile: {
+        federation: 2,
+      },
+    }),
   ],
   controllers: [ReservationsController],
-  providers: [ReservationsService, ReservationRepository],
+  providers: [ReservationsService, ReservationRepository, ReservationsResolver],
 })
 export class ReservationsModule {}

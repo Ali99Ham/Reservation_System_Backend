@@ -49,6 +49,9 @@
       "path": "./apps/notifications/tsconfig.app.json"
     },
     {
+      "path": "./apps/gateway/tsconfig.app.json"
+    },
+    {
       "path": "./tsconfig.spec.json"
     }
   ]
